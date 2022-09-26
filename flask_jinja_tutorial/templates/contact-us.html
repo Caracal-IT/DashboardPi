@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>This is the control panel for the raspberry pi automation</p>
+        <button id="getTempButton">Get Temp</button>
+        <hr/>
+        <div id="tempResponseDiv"></div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        const tempResponseDic = document.querySelector("#tempResponseDiv");
+        const getTempButton = document.querySelector("#getTempButton");
+
+       getTempButton.addEventListener('click', () => {
+           const temp = fetch("/temperature")
+               .then(r => r.json())
+               .then(r => {
+                   tempResponseDic.innerHTML = `I am ${r.name} from ${r.address}`;
+               });
+
+       });
+
+    </script>
+{% endblock %}
